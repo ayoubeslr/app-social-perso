@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, TextInput, StyleSheet, TouchableOpacity} from 'react-native'
 import {Button, Input} from 'react-native-elements'
+import axios from 'axios'
 
 export default class Signin extends Component {
   constructor(props) {
@@ -10,11 +11,32 @@ export default class Signin extends Component {
       password: '',
       visible: true
     }
+    this.handleClickSubmit = this.handleClickSubmit.bind(this)
   }
   
   static navigationOptions = {
     title: 'Connexion',
   };
+
+  handleClickSubmit(){
+    axios
+      .get(
+        "http:192.168.56.1:3001/users/connect?email=" +
+          this.state.pseudo +
+          "&password=" +
+          this.state.password
+      )
+      .then(res => {
+        if (res.data.status === "ok") {
+          this.props.setSessionToken(res.data.token);
+          this.props.navigation.push('Messenger')          
+        }else{
+          alert("no")
+          
+        }
+      });
+  }
+
   render() {
     return (
       <View  style={styles.container}>
@@ -49,10 +71,11 @@ export default class Signin extends Component {
               >Mot de passe oublié ?</Text>
           </TouchableOpacity>
           <Button
-          title="CONNEXION"
+          title="Connexion"
           type="clear"
           containerStyle={styles.button}
-          titleStyle={{color: "#F6F200"}}
+    
+    titleStyle={{color:"#fff", borderRadius: 50 }}
           onPress={this.handleClickSubmit}
             /> 
         </View>
@@ -82,22 +105,22 @@ const styles = StyleSheet.create({
   },
   containerButton: {
     flexDirection: "row",
-    borderStyle: 'solid',
-    borderTopWidth: 0.5,
-    borderColor: "#000000",
-    
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    // backgroundColor: "#f9f9f9",
+    height: 50
   },
   button: {
+    borderRadius: 20,
     marginRight: 36,
+    backgroundColor: "#DC6700",
   },
   containerAccount: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 10,
     alignItems: 'center',
   },
   account: {
     color: '#F4B100',
-    fontSize: 16
+    fontSize: 16,
+    marginRight: 36
   },
 });
