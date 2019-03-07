@@ -9,6 +9,7 @@ export default class SignupEmail extends Component {
         email: '',
         visible: false,
         error: false, 
+        test: "TEST"
       }
     this.handleClickSubmit = this.handleClickSubmit.bind(this)
     }
@@ -20,13 +21,16 @@ export default class SignupEmail extends Component {
     
     handleClickSubmit(){
       const { email } = this.state;
-      if (!this.validateEmail(this.state.email)) {
+      if (!this.validateEmail(email)) {
         // not a valid email
-        this.setState({error: false})
+        this.setState({
+          error: true
+        })
+        
       } else {
         // valid email
-        this.setState({error: true})
-        this.props.navigation.push('SignupName', { email: this.state.email })
+        this.setState({error: false})
+        this.props.navigation.push('SignupName', { email: this.state.email.toLowerCase() })
       }
     }
 
@@ -47,21 +51,22 @@ export default class SignupEmail extends Component {
 
             {/* Champ de saisi Email */}
             <TextInput
-            placeholder="Email"
-            style={{borderBottomWidth: 1, borderColor:"#908F8E", fontSize: 20}}
-            keyboardType="email-address"
-            maxLength={40}
-            type="email"
-            errorMessage={this.state.error ? "" : "Veuillez saisir une adresse valide"}
-            errorStyle={{fontSize: 15}}
-            required aria-required="true"
-            onChangeText={(text) => {
-              this.setState({
-                email: text,
-                visible: true
-              })
-            }}
+              placeholder="Email"
+              style={{borderBottomWidth: 1, borderColor:"#908F8E", fontSize: 20}}
+              keyboardType="email-address"
+              maxLength={40}
+              type="email"
+              errorMessage={this.state.error ? "Veuillez saisir une adresse valide" : "" }
+              errorStyle={{fontSize: 15}}
+              required aria-required="true"
+              onChangeText={(text) => {
+                this.setState({
+                  email: text,
+                  visible: true
+                })
+              }}
             />
+            <Text style={this.state.error ? styles.error: styles.notError}>Erruer</Text>
             
             {/* Bouton continuer */}
             <Button
@@ -69,8 +74,6 @@ export default class SignupEmail extends Component {
               disabled={this.state.email=='' ? true : false}
               disabledStyle={styles.button}
               disabledTitleStyle={{color: "#fff"}}
-              errorMessage="eror"
-              errorProps={this.props.errorMessages}
               buttonStyle={styles.pressButton}
               titleStyle={{color: "#fff"}}
               onPress={this.handleClickSubmit}
@@ -122,4 +125,11 @@ export default class SignupEmail extends Component {
     buttonWrapper:{
       backgroundColor: "#AEFF00"
     },
+    error: {
+      color: "#FF0000",
+      fontSize: 15
+    },
+    notError: {
+      display: "none"
+    }
   });

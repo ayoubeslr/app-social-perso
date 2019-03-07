@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import Home from './../components/Home'
 import SignupEmail from './../components/SignupEmail'
 import SignupName from './../components/SignupName'
+import SignupDate from './../components/SignupDate'
+
 import Signup from './../components/Signup'
 import Signin from './../components/Signin'
 import Messenger from './../components/Messenger'
@@ -16,6 +18,7 @@ const RootStack = createStackNavigator(
     Home: Home,
     SignupEmail: SignupEmail,
     SignupName: SignupName,
+    SignupDate: SignupDate,
     Signup: Signup,
     Signin: Signin,
     Messenger: Messenger,

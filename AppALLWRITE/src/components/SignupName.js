@@ -19,7 +19,12 @@ export default class SignupName extends Component {
 
     
     handleClickSubmit(){
-      
+        const { navigation } = this.props;
+        const email = navigation.getParam('email', '');
+        this.props.navigation.push('SignupDate', {
+            email: email,
+            name: this.state.name.toLowerCase(),
+        })        
     }
 
 
