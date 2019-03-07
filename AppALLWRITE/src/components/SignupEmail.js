@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, KeyboardAvoidingView, StyleSheet } from 'react-native'
+import { Text, View, KeyboardAvoidingView, TouchableOpacity, StyleSheet } from 'react-native'
 import {Button, Input} from 'react-native-elements'
 
 export default class SignupEmail extends Component {
@@ -7,19 +7,53 @@ export default class SignupEmail extends Component {
       super(props);
       this.state={
         email: '',
+        visible: false,
+        error: false, 
+      }
+    this.handleClickSubmit = this.handleClickSubmit.bind(this)
+    }
+
+    static navigationOptions = {
+      title: 'Inscription',
+    };
+
+    
+    handleClickSubmit(){
+      const { email } = this.state;
+      if (!this.validateEmail(this.state.email)) {
+        // not a valid email
+        alert("ca passe pas")
+        this.setState({error: false})
+      } else {
+        // valid email
+        this.setState({error: true})
+        this.props.navigation.push('Signin', { email: this.state.email })
       }
     }
-    static navigationOptions = {
-      title: 'Iscription',
-    };
-    
+
+    // vérification de l'adresse mail
+    validateEmail(email){
+      let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return regex.test(email);
+    }
+
     render() {
       return (
-        <KeyboardAvoidingView style={styles.container} >
-          <View style={styles.containerInput}>
+          <View style={styles.container}>
+            {/* Title */}
+            <View style={{justifyContent:'center', alignItems:"center"}}>
+              <Text style={{fontSize: 20}}>Entrer votre adresse mail</Text>              
+            </View>
+
+            {/* Champ de saisi Email */}
             <Input
             placeholder="Email"
-            style={styles.email}
+            keyboardType="email-address"
+            maxLength={40}
+            type="email"
+            errorMessage={this.state.error ? "" : "Veuillez saisir une adresse valide"}
+            errorStyle={{fontSize: 15}}
+            required aria-required="true"
             onChangeText={(text) => {
               this.setState({
                 email: text,
@@ -27,26 +61,32 @@ export default class SignupEmail extends Component {
               })
             }}
             />
-              <Button
-          title="CONTINUER"
-          type="clear"
-          containerStyle={styles.button}
-          titleStyle={{color: "#58E891"}}
-          onPress={() => this.props.navigation.push('Signup', {
-            email: this.state.email
-          })
-        }
-            /> 
-          </View>
-          <View style={styles.containerAccount}>
-              <Text> Vous avez déjà un compte ? 
-              <Text onPress={() => this.props.navigation.push('Signin')}
-              style={styles.account}> Connectez-vous</Text>
-            </Text>
-          </View>
-        </KeyboardAvoidingView>
-        
-  
+            
+            {/* Bouton continuer */}
+            <Button
+              title="CONTINUER"
+              disabled={this.state.email=='' ? true : false}
+              disabledStyle={styles.button}
+              disabledTitleStyle={{color: "#fff"}}
+              errorMessage="eror"
+              errorProps={this.props.errorMessages}
+              buttonStyle={styles.pressButton}
+              titleStyle={{color: "#fff"}}
+              onPress={this.handleClickSubmit}
+            />
+
+            {/* Text */}
+            <TouchableOpacity style={{justifyContent: "center", alignItems: 'center'}}>
+              <Text style={{color: "#FE9200", fontSize:15, marginTop:20}}>S'inscrire avec numéro de telephone</Text>
+            </TouchableOpacity>
+
+            <View style={{position:'absolute',bottom:0, alignSelf:'center', marginBottom: 20 }}>
+              <Text>Vous avez déjà un compte ?
+              <Text onPress={()=>this.props.navigation.push('Home')} style={styles.account}> Connectez-vous</Text>
+              </Text>
+            </View>
+            
+        </View>
       )
     }
   }
@@ -58,24 +98,30 @@ export default class SignupEmail extends Component {
       backgroundColor: '#fff',
       flexDirection: 'column',
       alignItems: 'stretch',
+      padding: 30,
+
     },
     containerInput: {
-      flex: 3,
-      padding: 20,
-      justifyContent: 'center',      
-      alignItems: 'center',
       
     },
     button: {
-      marginTop:20
+      marginTop:10,
+      backgroundColor:"#F9C882",
+
+    },
+    pressButton: {
+      marginTop:10,
+      backgroundColor: "#F08A00",
     },
     containerAccount: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      marginBottom: 36,
-      alignItems: 'center',
     },
     account: {
-      color: '#58E891',
+      color: '#FF9300',
+    },
+    disabled: {
+      backgroundColor: "#000000"
+    },
+    buttonWrapper:{
+      backgroundColor: "#AEFF00"
     },
   });

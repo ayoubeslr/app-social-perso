@@ -9,6 +9,7 @@ export default class Signin extends Component {
     this.state={
       pseudo: '',
       password: '',
+      token: "",
       visible: true
     }
     this.handleClickSubmit = this.handleClickSubmit.bind(this)
@@ -29,7 +30,7 @@ export default class Signin extends Component {
       .then(res => {
         if (res.data.status === "ok") {
           this.props.setSessionToken(res.data.token);
-          this.props.navigation.push('Messenger')          
+          this.props.navigation.push('Messenger')
         }else{
           alert("no")
           
@@ -68,15 +69,15 @@ export default class Signin extends Component {
             <Text 
               style={styles.account}
               // onPress={() => this.setState({ visible: false})}
-              >Mot de passe oublié ?</Text>
+              >Mot de passe oublié ?
+            </Text>
           </TouchableOpacity>
           <Button
-          title="Connexion"
-          type="clear"
-          containerStyle={styles.button}
-    
-    titleStyle={{color:"#fff", borderRadius: 50 }}
-          onPress={this.handleClickSubmit}
+            title="Connexion"
+            type="clear"
+            containerStyle={styles.button}
+            titleStyle={{color:"#fff", borderRadius: 50 }}
+            onPress={this.handleClickSubmit}
             /> 
         </View>
       </View>
