@@ -3,17 +3,19 @@ import { createStackNavigator, createAppContainer } from 'react-navigation'; // 
 // redux
 import { connect } from 'react-redux';
 // pages
+import Home from './../components/Home'
 import SignupEmail from './../components/SignupEmail'
+import SignupName from './../components/SignupName'
 import Signup from './../components/Signup'
 import Signin from './../components/Signin'
 import Messenger from './../components/Messenger'
-import Home from './../components/Home'
 
 
 const RootStack = createStackNavigator(
   {
     Home: Home,
     SignupEmail: SignupEmail,
+    SignupName: SignupName,
     Signup: Signup,
     Signin: Signin,
     Messenger: Messenger,

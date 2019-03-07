@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, KeyboardAvoidingView, TouchableOpacity, StyleSheet } from 'react-native'
+import { Text, View, KeyboardAvoidingView, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
 import {Button, Input} from 'react-native-elements'
 
 export default class SignupEmail extends Component {
@@ -22,12 +22,11 @@ export default class SignupEmail extends Component {
       const { email } = this.state;
       if (!this.validateEmail(this.state.email)) {
         // not a valid email
-        alert("ca passe pas")
         this.setState({error: false})
       } else {
         // valid email
         this.setState({error: true})
-        this.props.navigation.push('Signin', { email: this.state.email })
+        this.props.navigation.push('SignupName', { email: this.state.email })
       }
     }
 
@@ -39,15 +38,17 @@ export default class SignupEmail extends Component {
 
     render() {
       return (
-          <View style={styles.container}>
+          <KeyboardAvoidingView style={styles.container}>
+
             {/* Title */}
-            <View style={{justifyContent:'center', alignItems:"center"}}>
+            <View style={{justifyContent:'center', alignItems:"center", marginBottom: 20}}>
               <Text style={{fontSize: 20}}>Entrer votre adresse mail</Text>              
             </View>
 
             {/* Champ de saisi Email */}
-            <Input
+            <TextInput
             placeholder="Email"
+            style={{borderBottomWidth: 1, borderColor:"#908F8E", fontSize: 20}}
             keyboardType="email-address"
             maxLength={40}
             type="email"
@@ -85,8 +86,8 @@ export default class SignupEmail extends Component {
               <Text onPress={()=>this.props.navigation.push('Home')} style={styles.account}> Connectez-vous</Text>
               </Text>
             </View>
-            
-        </View>
+
+        </KeyboardAvoidingView>
       )
     }
   }
@@ -100,9 +101,6 @@ export default class SignupEmail extends Component {
       alignItems: 'stretch',
       padding: 30,
 
-    },
-    containerInput: {
-      
     },
     button: {
       marginTop:10,
