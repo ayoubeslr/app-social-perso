@@ -43,6 +43,7 @@ export default class SignupName extends Component {
 
                 <Input
                 placeholder="Nom d'utilisateur"
+                autoFocus={true}
                 inputContainerStyle={{borderBottomWidth: 1, borderColor:"#908F8E",marginRight:10}}
                 inputStyle={{fontSize: 20}}
                 maxLength={25}

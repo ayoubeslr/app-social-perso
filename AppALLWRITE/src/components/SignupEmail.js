@@ -55,9 +55,8 @@ export default class SignupEmail extends Component {
               style={{borderBottomWidth: 1, borderColor:"#908F8E", fontSize: 20}}
               keyboardType="email-address"
               maxLength={40}
+              autoFocus={true}
               type="email"
-              errorMessage={this.state.error ? "Veuillez saisir une adresse valide" : "" }
-              errorStyle={{fontSize: 15}}
               required aria-required="true"
               onChangeText={(text) => {
                 this.setState({
@@ -66,7 +65,7 @@ export default class SignupEmail extends Component {
                 })
               }}
             />
-            <Text style={this.state.error ? styles.error: styles.notError}>Erruer</Text>
+            <Text style={this.state.error ? styles.error: styles.notError}>Veuillez saisir une adresse valide</Text>
             
             {/* Bouton continuer */}
             <Button
