@@ -21,7 +21,7 @@ export default class SignupName extends Component {
     handleClickSubmit(){
         const { navigation } = this.props;
         const email = navigation.getParam('email', '');
-        this.props.navigation.push('SignupDate', {
+        this.props.navigation.push('SignupPassword', {
             email: email,
             name: this.state.name.toLowerCase(),
         })        
@@ -39,7 +39,7 @@ export default class SignupName extends Component {
 
             {/* Champ de saisi du Nom */}
             <View style={{flexDirection:"row"}}>
-                <Text style={{alignSelf: "center",fontSize:20}}>@</Text>
+                <Text style={{alignSelf: "center",fontSize:20,}}>@</Text>
 
                 <Input
                 placeholder="Nom d'utilisateur"

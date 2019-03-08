@@ -43,7 +43,7 @@ export default class SignupDate extends Component {
         <View style={{justifyContent:'center', alignItems:"center", marginBottom: 20, padding:5}}>
               <Text style={{fontSize: 20, textAlign:"center"}}>Quelle est la date de votre anniversaire ?</Text>              
             </View>
-        <View style={{justifyContent:'center', alignItems:"center", marginBottom: 5, padding:15, backgroundColor:"#FAFAFA", borderWidth:1, borderRadius: 10}}>
+        <View style={{justifyContent:'center', alignItems:"center", marginBottom: 5, padding:15, backgroundColor:"#FAFAFA", borderRadius: 10}}>
 
             <TouchableOpacity onPress={this._showDateTimePicker}>
                 <Text style={{fontSize:20, color:"black"}}>{this.state.chosenDate}</Text>
@@ -54,7 +54,6 @@ export default class SignupDate extends Component {
             onConfirm={this._handleDatePicked}
             onCancel={this._hideDateTimePicker}
             datePickerModeAndroid={"spinner"}
-
             />
         </View>
         <Button
