@@ -20,20 +20,23 @@ export default class SignupPassword extends Component {
       title: 'Inscription',
     };
 
-    componentDidMount(){
-        this.interval = setInterval(() => this.checkPasswordNotValide(),2000);
-    }
-    
-    checkPasswordNotValide(){
-        const {password} = this.state
+    handleClickSubmit(){
+        const { navigation } = this.props;
+        const email = navigation.getParam('email', '');
+        const name = navigation.getParam('name', '');
         let regex = RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})");
-        let bool = regex.test(password)
+        let bool = regex.test(this.state.password)
         if (bool) {
-            // not a valid password
+            // valid password
             this.setState({
                 showButton: true,
                 showIcon: true,
                 error:false
+            })
+            this.props.navigation.push('SignupConfirmPassword', {
+                email: email,
+                name: name,
+                password: this.state.password
             })
             
           }else{
@@ -42,19 +45,7 @@ export default class SignupPassword extends Component {
                 showIcon: false,
                 error: true
             })
-          }
-    }
-
-    handleClickSubmit(){
-        clearInterval(this.interval)
-        const { navigation } = this.props;
-        const email = navigation.getParam('email', '');
-        const name = navigation.getParam('name', '');
-        this.props.navigation.push('SignupConfirmPassword', {
-            email: email,
-            name: name,
-            password: this.state.password
-        })  
+          }  
     }
     
     
@@ -67,16 +58,11 @@ export default class SignupPassword extends Component {
               <Text style={{fontSize: 20}}>Créer un mot de passe</Text>              
             </View>
 
-            {/* Champ de saisi Email */}
-            <Input
+            {/* Champ de saisi mot de passe */}
+            <TextInput
             placeholder="Mot de passe"
-            rightIcon={<Icon
-            name='check'
-            iconStyle={this.state.showIcon ? styles.iconNotError : styles.iconError}
-            />}
             maxLength={40}
-            inputContainerStyle={{borderBottomWidth: 1, borderColor:"#908F8E"}}
-            inputStyle={{fontSize: 20}}
+            style={{borderBottomWidth: 1, borderColor:"#908F8E", fontSize: 20}}
             autoFocus={true}
             secureTextEntry={true}
             required aria-required="true"
@@ -86,22 +72,19 @@ export default class SignupPassword extends Component {
                 visible: true,
                 })
             }}
-            
             />
+            <Text style={this.state.error ? styles.error: styles.notError}>Entrer une combinaison d'au moins six chiffres, lettre et signes de ponctuation (tels que ! et &)</Text>
 
-            <View style={this.state.password=="" ? styles.textPassword : styles.displayTextPassword}>
-              <Text style={{fontSize: 20, width: "80%",  textAlign:"center"}}>
-                Entrer une combinaison d'au moins six chiffres, lettre et signes de ponctuation 
-              </Text>
-              <Text style={{fontSize: 20, width: "80%",  textAlign:"center"}}>(tels que ! et &)</Text>          
-            </View>
+            <TouchableOpacity>
+                <Text style={{marginTop:10}}>Afficher le mot de passe</Text>
+            </TouchableOpacity>
             {/* Bouton continuer */}
             <Button
               title="CONTINIER"
-              disabled={this.state.showButton & !this.state.error ? false : true}
+              disabled={this.state.visible ? false : true}
               disabledStyle={styles.button}
               disabledTitleStyle={{color: "#fff"}}
-              buttonStyle={this.state.password!=="" ? styles.pressButton : styles.displayButton}
+              buttonStyle={this.state.password!=="" ? styles.pressButton : styles.button}
               titleStyle={{color: "#fff"}}
               onPress={this.handleClickSubmit}
             />
@@ -124,24 +107,18 @@ export default class SignupPassword extends Component {
       backgroundColor: '#fff',
       flexDirection: 'column',
       alignItems: 'stretch',
+      justifyContent: 'center',
       padding: 30,
 
     },
     button: {
       marginTop:15,
-      marginRight:10,
-      marginLeft: 10,
       backgroundColor:"#F9C882",
 
     },
     pressButton: {
       marginTop:15,
-      marginRight:10,
-      marginLeft: 10,
       backgroundColor: "#F08A00",
-    },
-    displayButton: {
-        display: "none"
     },
     containerAccount: {
     },
